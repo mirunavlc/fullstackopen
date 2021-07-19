@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 
 const Button = (props) => (
-  <button onClick={props.handleClick}>next anecdotes</button>
+  <button onClick={props.handleClick}>{props.text}</button>
+)
+
+const Votes = (props) => (
+  <div>
+    has {props.value} votes
+  </div>
 )
 
 const App = () => {
@@ -15,20 +21,27 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blod tests when dianosing patients'
   ]
 
+
   const getRandom = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     const rand = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log(rand)
     return rand;
   }
 
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <Button handleClick={() => setSelected(getRandom(0, anecdotes.length - 1))} />
+      <Votes value={points[selected]} />
+      <Button text="vote" handleClick={() => {
+        const copyVotes = [...points];
+        copyVotes[selected] += 1;
+        setPoints(copyVotes);
+      }} />
+      <Button text="next anecdotes" handleClick={() => setSelected(getRandom(0, anecdotes.length - 1))} />
     </div>
   )
 }
