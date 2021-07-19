@@ -12,12 +12,12 @@ const Button = (props) => (
   <button onClick={props.handleClick}> {props.text}</button>
 )
 
-const Display = props => {
+const Statistic = props => {
   const value = isNaN(props.value) ? 0 : props.value;
   if (props.percent === true) {
-    return <div>{props.text} {value} %</div>
+    return <tr><td>{props.text}</td><td> {value}</td><td>%</td></tr>
   }
-  return <div>{props.text} {value} </div>
+  return <tr><td>{props.text}</td><td> {value}</td></tr>
 }
 
 
@@ -35,12 +35,16 @@ const Statistics = (props) => {
   return (
     <div>
       <Header title="statistics" />
-      <Display text={goodStr} value={props.good} />
-      <Display text={neutralStr} value={props.neutral} />
-      <Display text={badStr} value={props.bad} />
-      <Display text="all" value={total} />
-      <Display text="average" value={(props.good - props.bad) / total} />
-      <Display text="positive" value={props.good * 100 / total} percent={true} />
+      <table>
+        <tbody>
+          <Statistic text={goodStr} value={props.good} />
+          <Statistic text={neutralStr} value={props.neutral} />
+          <Statistic text={badStr} value={props.bad} />
+          <Statistic text="all" value={total} />
+          <Statistic text="average" value={(props.good - props.bad) / total} />
+          <Statistic text="positive" value={props.good * 100 / total} percent={true} />
+        </tbody>
+      </table>
     </div>
   )
 }
