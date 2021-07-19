@@ -23,6 +23,15 @@ const Display = props => {
 
 const Statistics = (props) => {
   let total = (props.good + props.bad + props.neutral)
+  if (total === 0) {
+
+    return (
+      <div>
+        <Header title="statistics" />
+        <div>No feedback given</div>
+      </div >
+    )
+  }
   return (
     <div>
       <Header title="statistics" />
