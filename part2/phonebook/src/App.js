@@ -23,6 +23,11 @@ const App = () => {
   const addPerson = (event)=>
   {
     event.preventDefault()
+    const duplication = persons.find((person)=> person.name===newName);
+    if(duplication!==undefined) {
+      window.alert(`${newName} is already added to phonebook`)
+      return;
+    }
     const newPerson = { name: newName }
     console.log(newPerson, persons);
     setPersons(persons.concat(newPerson))
