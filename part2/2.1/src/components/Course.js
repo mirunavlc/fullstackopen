@@ -7,6 +7,9 @@ const Course = ({course})=>{
         <ul>
         {course.parts.map(part => <Part key={part.id} part={part}/>)}
         </ul>
+        <ul><b>
+         total of {course.parts.reduce((noOfExercices, part)=>{ return noOfExercices + part.exercises}, 0)} excercises
+        </b></ul>
         </>
     )
 }
