@@ -1,70 +1,45 @@
 import { useState } from 'react'
-
-const Person = ({person}) =>
-{
-  return (
-    <ul>{person.name} {person.number}</ul>
-    )
-}
-
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' ,
-      number: '0040'}
-  ]) 
+  const allPersons = [
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ]
+
+  const [persons, setPersons] = useState(allPersons) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-
-  const handleNameChange = (event)=>
-  {
-    console.log(event.target.value)
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event)=>
-  {
-    console.log(event.target.value)
-    setNewNumber(event.target.value)
-  }
-
-  const addPerson = (event)=>
-  {
-    event.preventDefault()
-    const duplicationName = persons.find((person)=> person.name===newName);
-    const duplicationNo = persons.find((person)=> person.number===newNumber);
-    if(duplicationName!==undefined) {
-      window.alert(`${newName} is already added to phonebook`)
-      return;
-    }
-    if(duplicationNo!==undefined) {
-      window.alert(`${newNumber} is already added to phonebook`)
-      return;
-    }
-    const newPerson = { name: newName, number: newNumber }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber('')
-  }
+  const [newFilter, setNewFilter] = useState('')
+  const [personsToShow, setPersonsToShow] = useState(allPersons) 
 
   return (
     <div>
 
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter 
+          newFilter={newFilter} 
+          persons={persons} 
+          setNewFilter={setNewFilter} 
+          setPersonsToShow={setPersonsToShow}
+      />
+      <PersonForm 
+          newName={newName} 
+          setNewName={setNewName}
+          newNumber={newNumber} 
+          setNewNumber={setNewNumber}
+          persons={persons}
+          setPersons={setPersons}
+          setPersonsToShow={setPersonsToShow}   
+          setNewFilter={setNewFilter}
+      />
 
       <h2>Numbers</h2>
-      <div>
-        {persons.map((person)=><Person key={person.name} person={person}/>)}
-      </div>
+      <Persons persons={personsToShow}/>
 
     </div>
   )
