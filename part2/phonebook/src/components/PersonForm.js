@@ -10,6 +10,7 @@ const PersonForm = ({
   newNumber,
   setNewNumber,
   setNewFilter,
+  setNotification,
 }) => {
   const handleNameChange = (event) => {
     console.log(event.target.value);
@@ -20,6 +21,13 @@ const PersonForm = ({
     console.log(event.target.value);
     setNewNumber(event.target.value);
   };
+  const notify = (message) => {
+    setNotification(message);
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
+
   const addPerson = (event) => {
     event.preventDefault();
     const duplicationName = persons.find((person) => person.name === newName);
@@ -43,6 +51,7 @@ const PersonForm = ({
             p.id !== duplicationName.id ? p : response
           );
           setPersonsToShow(persToShow);
+          notify(`Updated ${response.name}`);
         })
         .catch((error) => {
           alert(`${duplicationName.name} was already deleted from server`);
@@ -65,6 +74,7 @@ const PersonForm = ({
       setNewName("");
       setNewNumber("");
       setNewFilter("");
+      notify(`Added ${returnedPerson.name}`);
     });
   };
 
