@@ -11,6 +11,7 @@ const PersonForm = ({
   setNewNumber,
   setNewFilter,
   setNotification,
+  setError,
 }) => {
   const handleNameChange = (event) => {
     console.log(event.target.value);
@@ -25,6 +26,12 @@ const PersonForm = ({
     setNotification(message);
     setTimeout(() => {
       setNotification(null);
+    }, 5000);
+  };
+  const notifyError = (message) => {
+    setError(message);
+    setTimeout(() => {
+      setError(null);
     }, 5000);
   };
 
@@ -54,7 +61,9 @@ const PersonForm = ({
           notify(`Updated ${response.name}`);
         })
         .catch((error) => {
-          alert(`${duplicationName.name} was already deleted from server`);
+          notifyError(
+            `${duplicationName.name} was already deleted from server`
+          );
           setPersons(persons.filter((n) => n.id !== duplicationName.id));
           setPersonsToShow(
             personsToShow.filter((n) => n.id !== duplicationName.id)
@@ -63,7 +72,7 @@ const PersonForm = ({
       return;
     }
     if (duplicationNo !== undefined) {
-      window.alert(`${newNumber} is already added to phonebook`);
+      notifyError(`${newNumber} is already added to phonebook`);
       return;
     }
 
