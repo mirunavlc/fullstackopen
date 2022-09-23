@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
-import axios from 'axios'
+import personsService from './services/persons'
 
 const App = () => {
 
@@ -14,13 +14,17 @@ const App = () => {
 
   useEffect(()=>
   {
-    axios
-      .get('http://localhost:3001/persons')
-      .then((response)=>
+    personsService
+    .getAll()
+    .then((initialPersons)=>
             {
-              setPersons(response.data)
-              setPersonsToShow(response.data)
+              setPersons(initialPersons)
+              setPersonsToShow(initialPersons)
             })
+    .catch(error => {
+      alert(`the initial list of persons couldn't be loaded`)
+    })
+    
   }, []);
   return (
     <div>
