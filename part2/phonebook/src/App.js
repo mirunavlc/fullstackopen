@@ -38,6 +38,7 @@ const App = () => {
         setNewNumber={setNewNumber}
         persons={persons}
         setPersons={setPersons}
+        personsToShow={personsToShow}
         setPersonsToShow={setPersonsToShow}
         setNewFilter={setNewFilter}
       />

@@ -3,6 +3,7 @@ import personsService from "../services/persons";
 const PersonForm = ({
   persons,
   setPersons,
+  personsToShow,
   setPersonsToShow,
   newName,
   setNewName,
@@ -25,7 +26,31 @@ const PersonForm = ({
     const duplicationNo = persons.find((person) => person.number === newNumber);
 
     if (duplicationName !== undefined) {
-      window.alert(`${newName} is already added to phonebook`);
+      if (
+        !window.confirm(
+          `${newName} is already added to phonebook. Do you want to change the number?`
+        )
+      )
+        return;
+      personsService
+        .update(duplicationName.id, { name: newName, number: newNumber })
+        .then((response) => {
+          const pers = persons.map((p) =>
+            p.id !== duplicationName.id ? p : response
+          );
+          setPersons(pers);
+          const persToShow = personsToShow.map((p) =>
+            p.id !== duplicationName.id ? p : response
+          );
+          setPersonsToShow(persToShow);
+        })
+        .catch((error) => {
+          alert(`${duplicationName.name} was already deleted from server`);
+          setPersons(persons.filter((n) => n.id !== duplicationName.id));
+          setPersonsToShow(
+            personsToShow.filter((n) => n.id !== duplicationName.id)
+          );
+        });
       return;
     }
     if (duplicationNo !== undefined) {
