@@ -28,7 +28,7 @@ const App = () => {
   }, []);
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2>MY Phonebook</h2>
       <Notification message={notification} />
       <Error message={error} />
       <Filter

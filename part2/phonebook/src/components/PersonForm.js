@@ -77,14 +77,19 @@ const PersonForm = ({
     }
 
     const newPerson = { name: newName, number: newNumber };
-    personsService.create(newPerson).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setPersonsToShow(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-      setNewFilter("");
-      notify(`Added ${returnedPerson.name}`);
-    });
+    personsService
+      .create(newPerson)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setPersonsToShow(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+        setNewFilter("");
+        notify(`Added ${returnedPerson.name}`);
+      })
+      .catch((error) => {
+        notifyError(error.response.data.error);
+      });
   };
 
   return (
